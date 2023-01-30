@@ -1,11 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap");
 /* Base Styling */
 
-* {
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-size: 62.5%;
+  box-sizing: inherit;
 }
 
 body {
@@ -15,13 +21,13 @@ body {
   color: black;
 }
 
-p {
-  font-size: 1.6rem;
-}
-
-.before-calculate {
+.before {
   font-size: 2.6rem;
   overflow: hidden;
+}
+
+.after {
+  font-size: 1.2rem;
 }
 
 .container {
@@ -42,7 +48,7 @@ p {
 .after {
   display: flex;
   justify-content: flex-end;
-  width: 230px;
+  width: 233px;
   overflow: hidden;
   height: 30px;
 }
@@ -52,36 +58,33 @@ p {
   align-items: flex-end;
   padding: 1.6rem;
   background-color: #aaaaaa;
-  border-style: solid;
   height: 100px;
 }
 
-.row {
+.button-container {
   display: flex;
-  border-radius: 8px;
-  margin-top: 4px;
-  width: 260px;
-  justify-content: center;
-}
-
-.second-row {
-  gap: 16px;
-}
-
-.red,
-.green {
+  max-width: 265px;
+  flex-wrap: wrap;
+  margin-top: 5px;
   border-style: solid;
-  padding: 1.4rem;
 }
 
-.red {
-  background-color: #ff6f61;
+.clear,
+.delete {
+  flex: 1 50%;
+  background-color: crimson;
 }
 
-.green {
-  background-color: #009b77;
+button {
+  flex: 1 25%;
+  padding: 15px;
+  border-color: white;
 }
 
-.normal-row {
-  gap: 4px;
+.btn-operator {
+  background-color: orange;
+}
+
+.btn-equals {
+  background-color: green;
 }
