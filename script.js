@@ -6,9 +6,10 @@ const after = document.querySelector(".after");
 
 class Calculator {
   restart = false;
-  operator;
+  operator = ["+", "-", "x", "÷"];
   storeText = "";
   removeSymbol = "";
+  notSymbol = true;
   constructor() {
     this.whatButton();
   }
@@ -16,27 +17,12 @@ class Calculator {
   whatButton() {
     allButton.forEach((value) =>
       value.addEventListener("click", (e) => {
-        if (
-          this.restart === true &&
-          (e.target.innerText === "+" ||
-            e.target.innerText === "-" ||
-            e.target.innerText === "x" ||
-            e.target.innerText === "÷")
-        ) {
-          console.log(before.textContent);
-          console.log(typeof after.textContent);
-          after.textContent = before.textContent;
-          after.textContent += this.returnOperator(before.textContent);
-          before.textContent = "";
-          this.restart = false;
-        }
-
         if (e.target.innerText !== "=") {
           before.textContent += e.target.innerText;
         }
 
-        if (after.textContent === "") {
-          this.checkOperator(e.target.innerText);
+        if (after.textContent === "" || this.restart === true) {
+          this.moveAfter(e.target.innerText);
         }
 
         if (
@@ -68,19 +54,30 @@ class Calculator {
     if (event === "CLEAR") {
       after.textContent = "";
       before.textContent = "";
+      this.restart = false;
     }
   }
 
   checkOperator(event) {
+    for (const value of this.operator) {
+      if (event === value) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  moveAfter(event) {
     if (event === "+" || event === "-" || event === "x" || event === "÷") {
       after.textContent = before.textContent;
       before.textContent = "";
+      this.restart = false;
     }
   }
 
   returnOperator(afterText) {
-    const symbol = ["+", "-", "x", "÷"];
-    for (const value of symbol) {
+    for (const value of this.operator) {
       if (afterText.includes(value)) {
         return value;
       }
