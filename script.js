@@ -7,9 +7,11 @@ const after = document.querySelector(".after");
 class Calculator {
   restart = false;
   operator = ["+", "-", "x", "÷"];
+  allNumber = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
   storeText = "";
   removeSymbol = "";
-  notSymbol = true;
+  sliceText = "";
+  noSymbol = true;
   constructor() {
     this.whatButton();
   }
@@ -17,6 +19,20 @@ class Calculator {
   whatButton() {
     allButton.forEach((value) =>
       value.addEventListener("click", (e) => {
+        if (
+          (e.target.innerText === "+" ||
+            e.target.innerText === "-" ||
+            e.target.innerText === "x" ||
+            e.target.innerText === "÷") &&
+          before.textContent === ""
+        ) {
+          return;
+        }
+
+        if (this.checkNumber(e.target.innerText) === true) {
+          this.noSymbol = false;
+        }
+
         if (e.target.innerText !== "=") {
           before.textContent += e.target.innerText;
         }
@@ -25,22 +41,38 @@ class Calculator {
           this.moveAfter(e.target.innerText);
         }
 
+        //Calculation
         if (
-          (after.textContent.includes("+") ||
-            after.textContent.includes("-") ||
-            after.textContent.includes("x") ||
-            after.textContent.includes("÷")) &&
-          e.target.innerText === "="
+          (after.textContent.slice(-1) === "+" ||
+            after.textContent.slice(-1) === "-" ||
+            after.textContent.slice(-1) === "x" ||
+            after.textContent.slice(-1) === "÷") &&
+          (e.target.innerText === "=" ||
+            e.target.innerText === "+" ||
+            e.target.innerText === "-" ||
+            e.target.innerText === "x" ||
+            e.target.innerText === "÷") &&
+          before.textContent !== ""
         ) {
-          this.storeText = before.textContent;
+          if (
+            before.textContent.slice(-1) === "+" ||
+            before.textContent.slice(-1) === "-" ||
+            before.textContent.slice(-1) === "x" ||
+            before.textContent.slice(-1) === "÷"
+          ) {
+            this.sliceText = before.textContent.replace(
+              this.returnOperator(before.textContent),
+              ""
+            );
+          } else {
+            this.sliceText = before.textContent;
+          }
+          this.storeText = this.sliceText;
           this.removeSymbol = after.textContent.replace(
             this.returnOperator(after.textContent),
             ""
           );
-          before.textContent = this.pickCalc(
-            this.removeSymbol,
-            before.textContent
-          );
+          before.textContent = this.pickCalc(this.removeSymbol, this.sliceText);
           after.textContent += this.storeText;
           this.restart = true;
         }
@@ -55,6 +87,16 @@ class Calculator {
       after.textContent = "";
       before.textContent = "";
       this.restart = false;
+    }
+  }
+
+  checkNumber(event) {
+    for (const value of this.allNumber) {
+      if (event === value) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
