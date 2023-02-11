@@ -33,7 +33,7 @@ class Calculator {
           this.noSymbol = false;
         }
 
-        if (e.target.innerText !== "=") {
+        if (e.target.innerText !== "=" && e.target.innerText !== "DELETE") {
           before.textContent += e.target.innerText;
         }
 
@@ -78,8 +78,19 @@ class Calculator {
         }
 
         this.clearNumber(e.target.innerText);
+        this.deleteNumber(e.target.innerText);
       })
     );
+  }
+
+  deleteNumber(event) {
+    if (before.textContent === "") return;
+    if (event === "DELETE") {
+      let temp = "";
+      temp = before.textContent.slice(0, -1);
+      console.log(temp);
+      before.textContent = temp;
+    }
   }
 
   clearNumber(event) {
