@@ -72,15 +72,23 @@ class Calculator {
             this.returnOperator(after.textContent),
             ""
           );
+
           before.textContent = this.pickCalc(this.removeSymbol, this.sliceText);
+
           after.textContent += this.storeText;
           this.restart = true;
         }
-
+        this.checkDecimal();
         this.clearNumber(e.target.innerText);
         this.deleteNumber(e.target.innerText);
       })
     );
+  }
+
+  checkDecimal() {
+    if (before.textContent.length > 8) {
+      before.textContent = Number(before.textContent).toFixed(2);
+    }
   }
 
   deleteNumber(event) {
